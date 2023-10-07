@@ -39,7 +39,6 @@ class Article extends Resource
                 'draft' => 'Draft',
                 'private' => 'Private',
             ])->displayUsingLabels()->required(),
-            DateTime::make('Publish At')->default(now()),
             Flexible::make('Content')->fullWidth()
                 ->addLayout('Simple content section', 'wysiwyg', [
                     Text::make('Title'),
