@@ -5,7 +5,7 @@ namespace ReesMcIvor\Articles;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Nova;
-use ReesMcIvor\Articles\Nova\Articles;
+use ReesMcIvor\Articles\Nova\Article;
 
 class ArticlesPackageServiceProvider extends ServiceProvider
 {
@@ -17,15 +17,15 @@ class ArticlesPackageServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../database/migrations' => class_exists('Stancl\Tenancy\TenancyServiceProvider') ? database_path('migrations/tenant') : database_path('migrations'),
                 __DIR__ . '/../publish/tests' => base_path('tests/Articles'),
-            ], 'laravel-articleables');
+            ], 'laravel-articles');
         }
 
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-articleables');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-articles');
 
         Blade::componentNamespace('ReesMcIvor\\Articles\\View\\Components', 'articles');
 
         Nova::resources([
-            Articles::class,
+            Article::class,
         ]);
     }
 
