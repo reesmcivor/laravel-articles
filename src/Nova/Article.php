@@ -6,6 +6,7 @@ use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Markdown;
@@ -38,6 +39,7 @@ class Article extends Resource
                 'draft' => 'Draft',
                 'private' => 'Private',
             ])->displayUsingLabels()->required(),
+            DateTime::make('Publish At')->default(now()),
             Flexible::make('Content')->fullWidth()
                 ->addLayout('Simple content section', 'wysiwyg', [
                     Text::make('Title'),
