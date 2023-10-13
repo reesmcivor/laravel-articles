@@ -32,8 +32,22 @@ class Article extends Resource
             ID::make()->sortable(),
             Text::make('Title')->required(),
             Slug::make('Slug')->from('Title')->required(),
-            //Text::make('Slug'),
-            //Textarea::make('Summary'),
+            Image::make('Image')->path('/images')
+                ->preview(function ($value, $disk) {
+                    if ($value) {
+                        $url = Storage::disk("articles")->url($value);
+                        return $url ?? null;
+                    } else {
+                        return null;
+                    }
+                })->thumbnail(function ($value, $disk) {
+                    if ($value) {
+                        $url = Storage::disk("articles")->url($value);
+                        return $url ?? null;
+                    } else {
+                        return null;
+                    }
+                })->disk('articles'),
             Select::make('Status', 'status')->options([
                 'published' => 'Published',
                 'draft' => 'Draft',

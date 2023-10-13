@@ -20,6 +20,8 @@ class ArticlesPackageServiceProvider extends ServiceProvider
             ], 'laravel-articles');
         }
 
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
+        
         $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-articles');
 
         Blade::componentNamespace('ReesMcIvor\\Articles\\View\\Components', 'articles');

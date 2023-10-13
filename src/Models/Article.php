@@ -12,6 +12,10 @@ class Article extends Model
 
     protected $fillable = ['name'];
 
+    protected $casts = [
+        'content' => 'array'
+    ];
+
     protected static function newFactory()
     {
         return new ArticleFactory();
