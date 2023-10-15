@@ -10,7 +10,7 @@ class ArticleCategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->namegi,
+            'name' => $this->name,
         ];
     }
 }
