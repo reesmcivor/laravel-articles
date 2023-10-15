@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Whitecube\NovaFlexibleContent\Flexible;
 
@@ -41,6 +42,7 @@ class Article extends Resource
                 ->resolveUsing(function ($value) {
                     return $value ? true : false;
                 }),
+
             DateTime::make('Published At'),
             BelongsToMany::make('Categories', 'categories', \ReesMcIvor\Articles\Nova\ArticleCategory::class)->display('name')->sortable(),
             Image::make('Image')->path('/images')
@@ -94,6 +96,9 @@ class Article extends Resource
                 ])
                 ->addLayout('Related Routine', 'related_routine', [
                     Select::make('Routine')->options(\App\Models\Routine::all()->pluck('name', 'id')->toArray())
+                ])
+                ->addLayout('Premium Breakpoint', 'premium_breakpoint', [
+                    Hidden::make("Premium Breakpoint", "premium_breakpoint"),
                 ])
         ];
     }
