@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Nova;
 use ReesMcIvor\Articles\Nova\Article;
+use ReesMcIvor\Articles\Nova\ArticleCategory;
 
 class ArticlesPackageServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ class ArticlesPackageServiceProvider extends ServiceProvider
 
         Nova::resources([
             Article::class,
+            ArticleCategory::class
         ]);
     }
 

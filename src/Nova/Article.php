@@ -6,6 +6,8 @@ use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
@@ -32,6 +34,15 @@ class Article extends Resource
             ID::make()->sortable(),
             Text::make('Title')->required(),
             Slug::make('Slug')->from('Title')->required(),
+            Boolean::make('Is Premium', 'is_premium')
+                ->displayUsing(function ($value) {
+                    return $value ? 'Yes' : 'No';
+                })
+                ->resolveUsing(function ($value) {
+                    return $value ? true : false;
+                }),
+            DateTime::make('Published At'),
+            BelongsToMany::make('Categories', 'categories', \ReesMcIvor\Articles\Nova\ArticleCategory::class)->display('name')->sortable(),
             Image::make('Image')->path('/images')
                 ->preview(function ($value, $disk) {
                     if ($value) {

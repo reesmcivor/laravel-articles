@@ -12,6 +12,8 @@ class Article extends Model
 
     protected $fillable = ['name'];
 
+    protected $dates = ['published_at'];
+
     protected $casts = [
         'content' => 'array'
     ];
@@ -21,13 +23,16 @@ class Article extends Model
         return new ArticleFactory();
     }
 
-    public function parent()
+    public function categories()
     {
-        return $this->belongsTo(Article::class, 'parent_id');
+        return $this->belongsToMany(ArticleCategory::class, 'article_category');
     }
 
-    public function children()
+    public function scopePublished($query)
     {
-        return $this->hasMany(Article::class, 'parent_id');
+        return $query->where(function ($query) {
+            $query->whereNull('published_at')
+                ->orWhere('published_at', '<=', now());
+        });
     }
 }
