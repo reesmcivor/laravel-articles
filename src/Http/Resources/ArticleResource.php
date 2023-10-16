@@ -18,7 +18,14 @@ class ArticleResource extends JsonResource
             'published_at' => $this->published_at?->format('jS M Y'),
             'is_premium' => $this->is_premium,
             'categories' => ArticleCategoryResource::collection($this->categories),
-            'content' => $this->content,
+            'content' => collect($this->content)->map(function($content) {
+                switch($content['layout']) {
+                    case "image":
+                        $content['attributes']['image'] = Storage::disk('articles')->url($content['attributes']['image']);
+                    default:
+                        return $content;
+                }
+            }),
         ];
     }
 
