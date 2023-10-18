@@ -2,6 +2,7 @@
 
 namespace ReesMcIvor\Articles\Http\Resources;
 
+use App\Models\Exercise;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use ReesMcIvor\Articles\Http\Resources\ArticleCategoryResource;
@@ -22,9 +23,12 @@ class ArticleResource extends JsonResource
                 switch($content['layout']) {
                     case "image":
                         $content['attributes']['image'] = Storage::disk('articles')->url($content['attributes']['image']);
-                    default:
-                        return $content;
+                    break;
+                    case "video":
+                        $content['attributes']['video'] = Exercise::find($content['attributes']['video']);
+                    break;
                 }
+                return $content;
             }),
         ];
     }

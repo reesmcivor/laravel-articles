@@ -11,7 +11,10 @@ class ArticlesController extends Controller
 {
     public function index()
     {
-        $articles = Article::published()->with('categories')->get();
+        $articles = Article::published()
+            ->orderBy('published_at', 'DESC')
+            ->orderBy('id', 'DESC')
+            ->with('categories')->get();
 
         return response()->json([
             'message' => 'List of Articles',

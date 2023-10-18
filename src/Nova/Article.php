@@ -17,6 +17,7 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Hidden;
+use App\Models\Exercise;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Whitecube\NovaFlexibleContent\Flexible;
 
@@ -75,6 +76,11 @@ class Article extends Resource
                     Text::make('Title'),
                     Markdown::make('Left Column'),
                     Markdown::make('Right Column')
+                ])
+                ->addLayout('Video', 'video', [
+                    Select::make('Video')->searchable()->options(
+                        Exercise::all()->pluck('name', 'id')->toArray()
+                    )->displayUsingLabels(),
                 ])
                 ->addLayout('Image', 'image', [
                     Image::make('Image')->path('/images')
