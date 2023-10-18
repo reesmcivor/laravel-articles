@@ -28,6 +28,11 @@ class Article extends Model
         return $this->belongsToMany(ArticleCategory::class, 'article_category');
     }
 
+    public function author()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'author_id')->staff();
+    }
+
     public function scopePublished($query)
     {
         return $query->where(function ($query) {

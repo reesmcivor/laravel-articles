@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -18,6 +19,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Hidden;
 use App\Models\Exercise;
+use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Whitecube\NovaFlexibleContent\Flexible;
 
@@ -43,6 +45,8 @@ class Article extends Resource
                 ->resolveUsing(function ($value) {
                     return $value ? true : false;
                 }),
+            BelongsTo::make('Author', 'author', \ReesMcIvor\Staff\Nova\Staff::class)
+                ->searchable()->nullable(),
 
             DateTime::make('Published At'),
             BelongsToMany::make('Categories', 'categories', \ReesMcIvor\Articles\Nova\ArticleCategory::class)->display('name')->sortable(),
@@ -126,7 +130,7 @@ class Article extends Resource
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function filters(NovaRequest $request)
+    public function filters(Request $request)
     {
         return [];
     }
