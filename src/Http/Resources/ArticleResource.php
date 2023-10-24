@@ -20,6 +20,7 @@ class ArticleResource extends JsonResource
             'published_at' => $this->published_at?->format('jS M Y'),
             'is_premium' => $this->is_premium,
             'categories' => ArticleCategoryResource::collection($this->categories),
+            'related_articles' => RelatedArticleResource::collection($this->relatedArticles),
             'content' => collect($this->content)->map(function($content) {
                 switch($content['layout']) {
                     case "image":

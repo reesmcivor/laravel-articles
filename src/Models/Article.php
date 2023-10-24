@@ -33,6 +33,11 @@ class Article extends Model
         return $this->belongsTo(\App\Models\User::class, 'author_id')->staff();
     }
 
+    public function relatedArticles()
+    {
+        return $this->belongsToMany(Article::class, 'related_articles', 'article_id', 'related_article_id');
+    }
+
     public function scopePublished($query)
     {
         return $query->where(function ($query) {

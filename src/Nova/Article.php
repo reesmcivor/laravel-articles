@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\ManyToManyCreationRules;
 use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
@@ -27,9 +28,9 @@ class Article extends Resource
 {
 
     public static $model = \ReesMcIvor\Articles\Models\Article::class;
-    public static $title = 'id';
+    public static $title = 'title';
     public static $search = [
-        'id',
+        'id', 'title'
     ];
 
     public function fields(NovaRequest $request)
@@ -49,7 +50,10 @@ class Article extends Resource
                 ->searchable()->nullable(),
 
             DateTime::make('Published At'),
-            BelongsToMany::make('Categories', 'categories', \ReesMcIvor\Articles\Nova\ArticleCategory::class)->display('name')->sortable(),
+            BelongsToMany::make('Categories', 'categories', ArticleCategory::class)->display('name')->sortable(),
+            BelongsToMany::make('Related Articles', 'relatedArticles', Article::class)
+                ->sortable()
+                ->searchable(),
             Image::make('Image')->path('/images')
                 ->preview(function ($value, $disk) {
                     if ($value) {
