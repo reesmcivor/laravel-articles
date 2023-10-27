@@ -38,6 +38,11 @@ class Article extends Model
         return $this->belongsToMany(Article::class, 'related_articles', 'article_id', 'related_article_id');
     }
 
+    public function routines()
+    {
+        return $this->belongsToMany(\App\Models\Routine::class);
+    }
+
     public function scopePublished($query)
     {
         return $query->where(function ($query) {

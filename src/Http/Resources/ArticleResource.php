@@ -2,6 +2,7 @@
 
 namespace ReesMcIvor\Articles\Http\Resources;
 
+use App\Http\Resources\RoutineResource;
 use App\Models\Exercise;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -21,10 +22,12 @@ class ArticleResource extends JsonResource
             'is_premium' => $this->is_premium,
             'categories' => ArticleCategoryResource::collection($this->categories),
             'related_articles' => RelatedArticleResource::collection($this->relatedArticles),
+            'routines' => RoutineResource::collection($this->routines),
             'content' => collect($this->content)->map(function($content) {
                 switch($content['layout']) {
                     case "image":
-                        $content['attributes']['image'] = Storage::disk('articles')->url($content['attributes']['image']);
+                    case "audio":
+                        $content['attributes'][$content['layout']] = Storage::disk('articles')->url($content['attributes'][$content['layout']]);
                     break;
                     case "video":
                         $content['attributes']['video'] = Exercise::find($content['attributes']['video']);

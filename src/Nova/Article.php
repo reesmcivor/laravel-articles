@@ -10,10 +10,12 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\ManyToManyCreationRules;
 use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
@@ -54,6 +56,9 @@ class Article extends Resource
             BelongsToMany::make('Related Articles', 'relatedArticles', Article::class)
                 ->sortable()
                 ->searchable(),
+            BelongsToMany::make('Routines', 'routines', Routine::class)->display('name')
+                ->sortable()
+                ->searchable(),
             Image::make('Image')->path('/images')
                 ->preview(function ($value, $disk) {
                     if ($value) {
@@ -90,6 +95,9 @@ class Article extends Resource
                         Exercise::all()->pluck('name', 'id')->toArray()
                     )->displayUsingLabels(),
                 ])
+                ->addLayout('Audio', 'audio', [
+                    File::make('Audio')->disk('articles'),
+                ])
                 ->addLayout('Image', 'image', [
                     Image::make('Image')->path('/images')
                         ->preview(function ($value, $disk) {
@@ -108,8 +116,8 @@ class Article extends Resource
                             }
                         })->disk('articles'),
                 ])
-                ->addLayout('Related Routine', 'related_routine', [
-                    Select::make('Routine')->options(\App\Models\Routine::all()->pluck('name', 'id')->toArray())
+                ->addLayout('Related Routines', 'related_routines', [
+                    Hidden::make("Premium Breakpoint", "premium_breakpoint"),
                 ])
                 ->addLayout('Premium Breakpoint', 'premium_breakpoint', [
                     Hidden::make("Premium Breakpoint", "premium_breakpoint"),

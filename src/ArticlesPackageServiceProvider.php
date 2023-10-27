@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Nova;
 use ReesMcIvor\Articles\Nova\Article;
 use ReesMcIvor\Articles\Nova\ArticleCategory;
+use ReesMcIvor\Articles\Nova\Routine;
 
 class ArticlesPackageServiceProvider extends ServiceProvider
 {
@@ -29,7 +30,8 @@ class ArticlesPackageServiceProvider extends ServiceProvider
 
         Nova::resources([
             Article::class,
-            ArticleCategory::class
+            ArticleCategory::class,
+            Routine::class
         ]);
     }
 
