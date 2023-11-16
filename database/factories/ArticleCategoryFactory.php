@@ -4,16 +4,18 @@ namespace ReesMcIvor\Articles\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use ReesMcIvor\Articles\Models\Article;
+use ReesMcIvor\Articles\Models\ArticleCategory;
 
-class ArticleFactory extends Factory
+class ArticleCategoryFactory extends Factory
 {
 
-    protected $model = Article::class;
+    protected $model = ArticleCategory::class;
 
     public function definition() : array
     {
         return [
             'name' => $this->faker->name,
+            'slug' => $this->faker->slug,
         ];
     }
 }

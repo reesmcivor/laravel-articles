@@ -15,6 +15,8 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\ManyToManyCreationRules;
 use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
@@ -24,6 +26,7 @@ use Laravel\Nova\Fields\Hidden;
 use App\Models\Exercise;
 use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use ReesMcIvor\Labels\Nova\Labels;
 use Whitecube\NovaFlexibleContent\Flexible;
 
 class Article extends Resource
@@ -59,6 +62,7 @@ class Article extends Resource
             BelongsToMany::make('Routines', 'routines', Routine::class)->display('name')
                 ->sortable()
                 ->searchable(),
+            MorphToMany::make('Labels', 'labels', Labels::class),
             Image::make('Image')->path('/images')
                 ->preview(function ($value, $disk) {
                     if ($value) {

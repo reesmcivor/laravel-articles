@@ -3,6 +3,8 @@
 namespace ReesMcIvor\Articles\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use ReesMcIvor\Articles\Http\Resources\ArticleCategoryResource;
 use ReesMcIvor\Articles\Models\Article;
@@ -18,10 +20,40 @@ class ArticleCategoryController extends Controller
                 $query->published();
             }])
             ->whereHas('articles', fn($query) => $query->published())->get();
-        
+
         return response()->json([
             'message' => 'Non Empty Article Categories',
             'data' => ArticleCategoryResource::collection($articleCategories),
+        ]);
+    }
+
+    public function show( Request $request, ArticleCategory $articleCategory )
+    {
+        $userLabels = $request->user()->labels;
+        $labelNamesWithDescendants = $userLabels->flatMap(function ($label) {
+            return collect([$label->name])->merge($label->all_descendants->pluck('name'));
+        })->unique()->filter()->toArray();
+
+        Log::debug($labelNamesWithDescendants);
+
+        // First, try to get articles that match the user's labels
+        $articles = $articleCategory->articles()->published()
+            ->whereHas('labels', function ($query) use ($userLabels, $labelNamesWithDescendants) {
+                $query->whereIn('name', $labelNamesWithDescendants);
+            })
+            ->get();
+
+        Log::debug('Found: ' . $articles->count() . ' articles');
+
+
+        // If no articles are found, fetch all articles
+        if ($articles->isEmpty()) {
+            $articles = $articleCategory->articles()->published()->get();
+        }
+
+        return response()->json([
+            'message' => 'Article Categories',
+            'data' => ArticleResource::collection($articles),
         ]);
     }
 

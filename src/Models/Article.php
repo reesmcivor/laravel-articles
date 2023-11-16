@@ -5,10 +5,12 @@ namespace ReesMcIvor\Articles\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use ReesMcIvor\Articles\Database\Factories\ArticleFactory;
+use ReesMcIvor\Labels\Traits\HasLabels;
 
 class Article extends Model
 {
     use HasFactory;
+    use HasLabels;
 
     protected $fillable = ['name'];
 
