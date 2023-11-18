@@ -47,9 +47,10 @@ class Article extends Model
 
     public function scopePublished($query)
     {
-        return $query->where(function ($query) {
-            $query->whereNull('published_at')
-                ->orWhere('published_at', '<=', now());
-        });
+        return $query->where('status', 'published')
+            ->where(function ($query) {
+                $query->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            });
     }
 }
