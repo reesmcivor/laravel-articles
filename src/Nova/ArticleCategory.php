@@ -31,6 +31,7 @@ class ArticleCategory extends Resource
         return [
             ID::make()->sortable(),
             Text::make('Name')->required(),
+            Select::make('Classification')->options(['news' => 'News', 'article' => 'Article']),
             Slug::make('Slug')->from('name')->creationRules('unique:article_categories,slug')->onlyOnForms(),
         ];
     }

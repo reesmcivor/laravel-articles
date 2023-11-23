@@ -6,25 +6,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use ReesMcIvor\Articles\Http\Requests\ArticlesRequest;
 use ReesMcIvor\Articles\Models\Article;
 use ReesMcIvor\Articles\Http\Resources\ArticleResource;
 
 class ArticlesController extends Controller
 {
-    public function index( Request $request)
+    public function index( ArticlesRequest $request)
     {
 
+        Log::debug($request->get('classification'));
         $categoryId = $request->get('category');
         $articles = Article::published()
-            ->orderBy('published_at', 'DESC')
-            ->orderBy('id', 'DESC')
-            ->with('categories')
-            ->when($categoryId && $categoryId != 0, function($query) use ($categoryId) {
-                return $query->whereHas('categories', function ($subQuery) use ($categoryId) {
-                    $subQuery->where('article_categories.id', $categoryId);
-                });
-            })
+
+            ->where('classification', $request->get('classification'))
+         
             ->paginate(9999);
+
+        Log::debug($articles);
 
         return response()->json([
             'message' => 'List of Articles',

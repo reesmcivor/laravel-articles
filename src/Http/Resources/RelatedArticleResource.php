@@ -13,6 +13,7 @@ class RelatedArticleResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'type' => $this->type,
             'title' => $this->title,
             'slug' => $this->slug,
             'image' => $this->image ? Storage::disk('articles')->url($this->image) : '',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use ReesMcIvor\Articles\Http\Requests\ArticleCategoriesRequest;
 use ReesMcIvor\Articles\Http\Resources\ArticleCategoryResource;
 use ReesMcIvor\Articles\Models\Article;
 use ReesMcIvor\Articles\Http\Resources\ArticleResource;
@@ -13,10 +14,12 @@ use ReesMcIvor\Articles\Models\ArticleCategory;
 
 class ArticleCategoryController extends Controller
 {
-    public function index()
+    public function index( ArticleCategoriesRequest $request )
     {
+        Log::debug($request->get('classification'));
         $articleCategories = ArticleCategory
-            ::withCount(['articles' => function($query) {
+            ::where('classification', $request->get('classification'))
+            ->withCount(['articles' => function($query) {
                 $query->published();
             }])
             ->whereHas('articles', fn($query) => $query->published())->get();

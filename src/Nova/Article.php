@@ -42,6 +42,7 @@ class Article extends Resource
     {
         return [
             ID::make()->sortable(),
+            Select::make('Classification')->options(['article' => 'Article', 'news' => 'News'])->default('news'),
             Text::make('Title')->required(),
             Slug::make('Slug')->from('Title')->required(),
             Boolean::make('Is Premium', 'is_premium')

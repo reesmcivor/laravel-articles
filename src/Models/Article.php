@@ -12,7 +12,7 @@ class Article extends Model
     use HasFactory;
     use HasLabels;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'classification'];
 
     protected $dates = ['published_at'];
 
