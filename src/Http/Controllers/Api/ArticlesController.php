@@ -19,7 +19,7 @@ class ArticlesController extends Controller
         $categoryId = $request->get('category');
         $articles = Article::published()
 
-            ->where('classification', $request->get('classification'))
+            ->where('classification', $request->get('classification') ?? 'article')
          
             ->paginate(9999);
 

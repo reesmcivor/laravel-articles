@@ -18,7 +18,7 @@ class ArticleCategoryController extends Controller
     {
         Log::debug($request->get('classification'));
         $articleCategories = ArticleCategory
-            ::where('classification', $request->get('classification'))
+            ::where('classification', $request->get('classification') ?? 'article')
             ->withCount(['articles' => function($query) {
                 $query->published();
             }])

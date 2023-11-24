@@ -14,7 +14,7 @@ class ArticleCategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'classification' => 'in:news,article'
+            'classification' => 'sometimes'
         ];
     }
 
