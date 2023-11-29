@@ -26,7 +26,7 @@ class Article extends Model
         parent::boot();
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('published_at', 'desc');
-            $builder->orderBy('id', 'desc');
+            $builder->orderBy('articles.id', 'desc'); // Specify the table name
         });
     }
 
