@@ -37,8 +37,6 @@ class ArticleCategoryController extends Controller
             return collect([$label->name])->merge($label->all_descendants->pluck('name'));
         })->unique()->filter()->toArray();
 
-        Log::debug($labelNamesWithDescendants);
-
         // First, try to get articles that match the user's labels
         $articles = $articleCategory->articles()->published()
             ->whereHas('labels', function ($query) use ($userLabels, $labelNamesWithDescendants) {

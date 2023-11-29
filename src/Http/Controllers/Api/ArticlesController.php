@@ -14,16 +14,10 @@ class ArticlesController extends Controller
 {
     public function index( ArticlesRequest $request)
     {
-
-        Log::debug($request->get('classification'));
         $categoryId = $request->get('category');
         $articles = Article::published()
-
             ->where('classification', $request->get('classification') ?? 'article')
-         
             ->paginate(9999);
-
-        Log::debug($articles);
 
         return response()->json([
             'message' => 'List of Articles',

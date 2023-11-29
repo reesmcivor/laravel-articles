@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use ReesMcIvor\Articles\Database\Factories\ArticleFactory;
 use ReesMcIvor\Labels\Traits\HasLabels;
+use Illuminate\Database\Eloquent\Builder;
 
 class Article extends Model
 {
@@ -19,6 +20,15 @@ class Article extends Model
     protected $casts = [
         'content' => 'array'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('published_at', 'desc');
+            $builder->orderBy('id', 'desc');
+        });
+    }
 
     protected static function newFactory()
     {
