@@ -11,7 +11,7 @@ class ArticleCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'article_count' => $this->articles_count,
+            'article_count' => $this->articles()->count(),
         ];
     }
 }

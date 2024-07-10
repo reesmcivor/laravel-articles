@@ -30,11 +30,19 @@ class ArticleCategoryController extends Controller
         ]);
     }
 
+    public function featured( ArticleCategoriesRequest $request)
+    {
+        return response()->json([
+            'message' => 'Published featured categores',
+            'data' => ArticleCategoryResource::collection( ArticleCategory::published()->featured()->get() )
+        ]);
+    }
+
     public function show( Request $request, ArticleCategory $articleCategory )
     {
         $userLabels = $request->user()->labels;
         $labelNamesWithDescendants = $userLabels->flatMap(function ($label) {
-            return collect([$label->name])->merge($label->all_descendants->pluck('name'));
+            return collect([$label->name])->merge($label?->all_descendants?->pluck('name') ?? []);
         })->unique()->filter()->toArray();
 
         // First, try to get articles that match the user's labels
