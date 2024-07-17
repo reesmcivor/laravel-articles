@@ -14,7 +14,19 @@ use ReesMcIvor\Articles\Models\ArticleCategory;
 
 class ArticleCategoryController extends Controller
 {
-    public function index( ArticleCategoriesRequest $request )
+
+    public function index( ArticleCategoriesRequest $request ) {
+        $classification = $request->get('classification') ?? 'article';
+        $articleCategories = ArticleCategory
+            ::whereNull('parent_id')
+            ->get();
+
+        return response()->json([
+            'message' => 'Article Categories',
+            'data' => ArticleCategoryResource::collection($articleCategories),
+        ]);
+    }
+    public function listings( ArticleCategoriesRequest $request )
     {
         Log::debug($request->get('classification'));
         $articleCategories = ArticleCategory
@@ -25,7 +37,7 @@ class ArticleCategoryController extends Controller
             ->whereHas('articles', fn($query) => $query->published())->get();
 
         return response()->json([
-            'message' => 'Non Empty Article Categories',
+            'message' => 'Article Categories',
             'data' => ArticleCategoryResource::collection($articleCategories),
         ]);
     }

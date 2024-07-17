@@ -12,6 +12,8 @@ class ArticleCategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'article_count' => $this->articles()->count(),
+            'parent_id' => $this->parent_id,
+            'children' => ArticleCategoryResource::collection($this->children)
         ];
     }
 }
