@@ -36,6 +36,19 @@ class ArticleCategory extends Resource
             ID::make()->sortable(),
             Text::make('Name')->required(),
             BelongsTo::make('Parent Category', 'parent', self::class)->nullable(),
+            Select::make('Type')
+                ->options(['health_and_fitness' => 'Health & Fitness', 'sport_and_activity' => 'Sport & Activity'])
+                ->sortable()
+                ->rules('max:255')
+                ->onlyOnDetail(function () use ($request) {
+                    return $request->resource()->classification == 'article';
+                })
+                ->onlyOnIndex(function () use ($request) {
+                    return $request->resource()->classification == 'article';
+                })
+                ->onlyOnForms(function () use ($request) {
+                    return $request->resource()->classification == 'article';
+                }),
             Select::make('Classification')->options(['news' => 'News', 'article' => 'Article']),
             Number::make('Sort Order'),
             Boolean::make('Featured'),

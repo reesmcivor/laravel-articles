@@ -19,6 +19,10 @@ class ArticleCategoryController extends Controller
         $classification = $request->get('classification') ?? 'article';
         $articleCategories = ArticleCategory
             ::whereNull('parent_id')
+            ->withCount(['articles' => function($query) {
+                $query->published();
+            }])
+            ->whereHas('articles', fn($query) => $query->published())
             ->get();
 
         return response()->json([

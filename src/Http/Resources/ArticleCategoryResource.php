@@ -11,6 +11,7 @@ class ArticleCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'type' => $this->type,
             'article_count' => $this->articles()->count(),
             'parent_id' => $this->parent_id,
             'children' => ArticleCategoryResource::collection($this->children)
