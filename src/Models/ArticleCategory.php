@@ -29,9 +29,6 @@ class ArticleCategory extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             //$builder->orderBy('sort_order', 'asc');
             //$builder->orderByRaw('sort_order * 1 ASC');
-
-
-
         });
     }
 
@@ -54,5 +51,15 @@ class ArticleCategory extends Model
     public function articles()
     {
         return $this->belongsToMany(Article::class, 'article_category');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(ArticleCategory::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(ArticleCategory::class, 'parent_id');
     }
 }
