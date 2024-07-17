@@ -77,7 +77,7 @@ class ArticleCategoryController extends Controller
         }
 
         return response()->json([
-            'message' => 'Article Categories',
+            'message' => 'Article Category',
             'data' => ArticleResource::collection($articles),
         ]);
     }
