@@ -37,7 +37,11 @@ class ArticleCategory extends Resource
             Text::make('Name')->required(),
             BelongsTo::make('Parent Category', 'parent', self::class)->nullable(),
             Select::make('Type')
-                ->options(['health_and_fitness' => 'Health & Fitness', 'sport_and_activity' => 'Sport & Activity'])
+                ->options([
+                    'health_and_fitness' => 'Health & Fitness',
+                    'sport_and_activity' => 'Sport & Activity',
+                    'injuries' => 'Injuries'
+                ])
                 ->sortable()
                 ->rules('max:255')
                 ->onlyOnDetail(function () use ($request) {
