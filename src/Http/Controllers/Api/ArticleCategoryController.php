@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use ReesMcIvor\Articles\Http\Requests\ArticleCategoriesRequest;
 use ReesMcIvor\Articles\Http\Resources\ArticleCategoryResource;
+use ReesMcIvor\Articles\Http\Resources\ArticleCategoryTree;
 use ReesMcIvor\Articles\Models\Article;
 use ReesMcIvor\Articles\Http\Resources\ArticleResource;
 use ReesMcIvor\Articles\Models\ArticleCategory;
@@ -51,6 +52,14 @@ class ArticleCategoryController extends Controller
         return response()->json([
             'message' => 'Published featured categores',
             'data' => ArticleCategoryResource::collection( ArticleCategory::published()->featured()->get() )
+        ]);
+    }
+
+    public function tree( Request $request, ArticleCategory $articleCategory )
+    {
+        return response()->json([
+            'message' => 'Article Category Tree',
+            'data' => new ArticleCategoryTree($articleCategory),
         ]);
     }
 
