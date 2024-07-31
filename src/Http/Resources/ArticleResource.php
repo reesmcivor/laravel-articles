@@ -36,6 +36,7 @@ class ArticleResource extends JsonResource
                 }
                 return $content;
             }),
+            'media_type' => $this->media_type,
         ];
     }
 

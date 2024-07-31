@@ -126,7 +126,11 @@ class Article extends Resource
                 ])
                 ->addLayout('Premium Breakpoint', 'premium_breakpoint', [
                     Hidden::make("Premium Breakpoint", "premium_breakpoint"),
-                ])
+                ]),
+            Select::make('Media Type', 'media_type')->options([
+                'video' => 'Video',
+                'audio' => 'Audio'
+            ])->nullable(),
         ];
     }
 
