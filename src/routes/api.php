@@ -1,7 +1,6 @@
 <?php
 
-Route::middleware(['api', 'auth:sanctum'])->prefix('api')->group(function () {
-
+Route::middleware(['api', 'auth:sanctum', 'throttle:240,1,api'])->prefix('api')->group(function () {
     Route::get('articles/categories', [\ReesMcIvor\Articles\Http\Controllers\Api\ArticleCategoryController::class, 'index']);
     Route::get('articles/categories/index', [\ReesMcIvor\Articles\Http\Controllers\Api\ArticleCategoryController::class, 'listings']);
     Route::get('articles/categories/featured', [\ReesMcIvor\Articles\Http\Controllers\Api\ArticleCategoryController::class, 'featured']);
