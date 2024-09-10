@@ -34,7 +34,7 @@ class ArticleCategory extends Model
 
     public function scopeFeatured(Builder $query)
     {
-        return $query->where('featured', 1);
+        return $query->where('featured', 1)->orderBy('publish_from', 'asc');
     }
 
     public function scopePublished(Builder $query)
