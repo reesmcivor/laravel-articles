@@ -18,13 +18,19 @@ class ArticleCategoryController extends Controller
 
     public function index( ArticleCategoriesRequest $request ) {
         $classification = $request->get('classification') ?? 'article';
-        $articleCategories = ArticleCategory
-            ::whereNull('parent_id')
+        $articleCategories = ArticleCategory::whereNull('parent_id')
             ->withCount(['articles' => function($query) {
                 $query->published();
             }])
+            ->with(['articles' => function($query) {
+                $query->published()->orderBy('created_at', 'desc');
+            }])
             ->whereHas('articles', fn($query) => $query->published())
-            ->get();
+            ->get()
+            ->sortByDesc(function ($category) {
+                return $category->articles_count;
+            });
+
 
         return response()->json([
             'message' => 'Article Categories',
@@ -39,7 +45,8 @@ class ArticleCategoryController extends Controller
             ->withCount(['articles' => function($query) {
                 $query->published();
             }])
-            ->whereHas('articles', fn($query) => $query->published())->get();
+            ->whereHas('articles', fn($query) => $query->published())
+            ->get();
 
         return response()->json([
             'message' => 'Article Categories',
