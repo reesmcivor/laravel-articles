@@ -15,7 +15,7 @@ class ArticleCategoryTree extends JsonResource
             'parent_id' => $this->parent_id,
             'children' => ArticleCategoryTree::collection($this->children),
             'article_count' => $this->articles()->count(),
-            'articles' => ArticleResource::collection($this->articles)
+            'articles' => ArticleResource::collection($this->publishedArticles)
         ];
     }
 }
