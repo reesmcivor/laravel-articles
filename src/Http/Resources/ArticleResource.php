@@ -28,7 +28,9 @@ class ArticleResource extends JsonResource
                 switch($content['layout']) {
                     case "image":
                     case "audio":
+                    if($content['attributes'][$content['layout']] ?? false) {
                         $content['attributes'][$content['layout']] = Storage::disk('articles')->url($content['attributes'][$content['layout']]);
+                    }
                     break;
                     case "video":
                         $content['attributes']['video'] = Exercise::find($content['attributes']['video']);
