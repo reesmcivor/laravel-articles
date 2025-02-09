@@ -4,6 +4,7 @@ namespace ReesMcIvor\Articles\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use ReesMcIvor\Articles\Database\Factories\ArticleFactory;
 use ReesMcIvor\Labels\Traits\HasLabels;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,5 +63,10 @@ class Article extends Model
                 $query->whereNull('published_at')
                     ->orWhere('published_at', '<=', now());
             });
+    }
+
+    public function getImageAttribute($value)
+    {
+        return $value ? Storage::disk('articles')->url($value) : null;
     }
 }
