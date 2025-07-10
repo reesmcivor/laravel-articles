@@ -19,7 +19,8 @@ class Article extends Model
     protected $dates = ['published_at'];
 
     protected $casts = [
-        'content' => 'array'
+        'content' => 'array', 
+        'published_at' => 'datetime',
     ];
 
     protected static function boot()

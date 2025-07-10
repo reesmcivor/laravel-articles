@@ -19,6 +19,11 @@ class ArticleCategory extends Model
         'publish_to'
     ];
 
+    public $casts = [
+        'publish_from' => 'datetime',
+        'publish_to' => 'datetime',
+    ];
+
     protected static function newFactory()
     {
         return new ArticleCategoryFactory();

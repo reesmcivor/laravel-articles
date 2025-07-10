@@ -60,7 +60,8 @@ class Article extends Resource
             BelongsToMany::make('Related Articles', 'relatedArticles', Article::class)
                 ->sortable()
                 ->searchable(),
-            BelongsToMany::make('Routines', 'routines', Routine::class)->display('name')
+            BelongsToMany::make('Routines', 'routines', Routine::class)
+                ->display('name')
                 ->sortable()
                 ->searchable(),
             MorphToMany::make('Labels', 'labels', Labels::class),
@@ -132,6 +133,11 @@ class Article extends Resource
                 'audio' => 'Audio'
             ])->nullable(),
         ];
+    }
+
+    public static function relatableRoutines(NovaRequest $request, $query)
+    {
+        return $query->where('public', true)->orWhere('premium', true);
     }
 
     /**
